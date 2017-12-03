@@ -1,0 +1,14 @@
+Name font files to one following syntaxes:
+ - Fontname.extension
+    e.g. MyFont.ttf (NO MyFont-Regular.ttf)
+    -> generates @font-face for MyFont that can be used with "font-family" CSS property
+ - Fontname-style.extension
+    e.g. MyFont-italic.ttf
+    -> generates @font-face for MyFont that can be used with "font-family" and "font-style: italic" CSS properties
+ - Fontname-weight-style.extension
+    e.g. MyFont-700-italic.ttf
+    -> generates @font-face for MyFont that can be used with "font-family", "font-style: italic" and "font-weight: 700"
+
+It is recommended placing each font family to it's own subfolder, however not required.
+
+PLEASE INCLUDE ANY FONT LICENSES IN RESPECTIVE FONT-FAMILY'S SUBFOLDER.
