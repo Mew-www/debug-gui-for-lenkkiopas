@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {DebugTableComponent} from "./debug-table-component";
+import {ResultsMapComponent} from "./results-map-component";
 
 export class AppComponent extends Component {
   constructor(props) {
@@ -57,25 +58,23 @@ export class AppComponent extends Component {
           </div>
         </div>
         <div>
-          {/*<!-- Results in table -format -->*/}
-          <p>
-            {this.state.has_ongoing_query ?
-              <span>
-                Processing . . .
+        {/*<!-- Status -->*/}
+          {this.state.has_ongoing_query ?
+            <span>
+              Processing . . .
 
-                <i className="material-icons spinning"
-                   style={{'position': "relative", 'top': "4px"}}
-                >&#xE028;</i>
-              </span>
-              :
-              <span>Stand by</span>
-            }
-          </p>
+              <i className="material-icons spinning"
+                 style={{'position': "relative", 'top': "4px"}}
+              >&#xE028;</i>
+            </span>
+            :
+            <span>Stand by</span>
+          }
         </div>
         <div>
           {/*<!-- Results in table -format -->*/}
           {!this.state.debug_dataset ?
-            "Submit arguments to fetch dataset"
+            "Waiting dataset for table results"
             :
             <DebugTableComponent
               seek_distance={this.state.debug_dataset['roundtrip_points']['input_route_length_km']}
@@ -85,6 +84,22 @@ export class AppComponent extends Component {
         </div>
         <div>
           {/*<!-- Results in map -format -->*/}
+          {!this.state.debug_dataset ?
+            "Waiting dataset for map results"
+            :
+            <ResultsMapComponent
+              input_latlon={this.state.debug_dataset['start']['input'].split(',')}
+              center_latlon={this.state.debug_dataset['start']['nearest_point'].split(',')}
+              sector_points_latlons={Object.keys(this.state.debug_dataset['roundtrip_points']['sectors'])
+                .map((sector_key) => {
+                  return this.state.debug_dataset['roundtrip_points']['sectors'][sector_key];
+                })
+                .filter(sector => sector != null)
+                .map(sector => [sector['lat'], sector['lon']])
+              }
+              routes={this.state.debug_dataset.routes}
+            />
+          }
         </div>
       </div>
     );
