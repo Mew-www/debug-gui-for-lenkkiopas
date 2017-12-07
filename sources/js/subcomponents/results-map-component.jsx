@@ -44,6 +44,40 @@ export class ResultsMapComponent extends Component {
                      }} />
           );
         })}
+        {/*
+          this.props.routes.reduce((aggregated_disposed_latlons, route)=> {
+            return aggregated_disposed_latlons.concat(route['disposed'])
+          }, [])
+            .filter((disposed, idx, arr) => {
+              return arr.findIndex(d => d.id === disposed.id) === idx;
+            })
+            .map((unique_disposed) => {
+              return (
+                <Marker key={`${unique_disposed.id}`}
+                        position={[unique_disposed.lat, unique_disposed.lon].map(coordinate => Number(coordinate))}>
+                  <Popup>
+                    <span>
+                      ???
+                    </span>
+                  </Popup>
+                </Marker>
+              );
+            })
+        */}
+        {
+          this.props.routes.map((route) => {
+            return (
+              <GeoJSON key={route['sector']+'disposed'}
+                       data={route['disposed_as_geojson']}
+                       style={function(feature) {
+                         return {
+                           color: '#FF0000',
+                           opacity: 1
+                         };
+                       }} />
+            );
+          })
+        }
       </Map>
     );
   }

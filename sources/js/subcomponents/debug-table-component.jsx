@@ -15,6 +15,7 @@ export class DebugTableComponent extends Component {
           <th>Section ID</th>
           <th>Roundtrip-node distance (if any)</th>
           <th>Route length (if any)</th>
+          <th>Disposed way IDs (if any)</th>
         </tr>
         </thead>
         <tbody>
@@ -48,6 +49,20 @@ export class DebugTableComponent extends Component {
                           this.props.sectors[sector_id]['route']
                       :
                       "No point <=> no routes"
+                  }
+                </td>
+                <td>
+                  {
+                    this.props.sectors[sector_id] !== null
+                      ?
+                      this.props.sectors[sector_id].hasOwnProperty('route')
+                      && typeof this.props.sectors[sector_id]['route'] !== "string"
+                        ?
+                        this.props.sectors[sector_id]['route']['disposed'].map(disposed=>disposed.id).join(", ")
+                        :
+                        this.props.sectors[sector_id]['route']
+                      :
+                      "No routes <=> No disposed"
                   }
                 </td>
               </tr>

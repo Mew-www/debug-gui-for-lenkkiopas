@@ -7,9 +7,9 @@ export class AppComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'lat': 60.1,
-      'lon': 24.9,
-      'distance': 3,
+      'lat_comma_lon': "60.222,24.803",
+      'distance': 4,
+      'dispose_margin': 0.4,
       'has_ongoing_query': false,
       'debug_dataset': null
     };
@@ -17,8 +17,9 @@ export class AppComponent extends Component {
   executeQuery() {
     this.setState({'has_ongoing_query': true});
     axios.get(`https://lenkkiopas.metropolia.fi/routes/generate/round_trip` +
-      `?start_coordinates=${this.state.lat},${this.state.lon}` +
-      `&distance_km=${this.state.distance}`
+      `?start_coordinates=${this.state.lat_comma_lon}` +
+      `&distance_km=${this.state.distance}` +
+      `&dispose_margin=${this.state.dispose_margin}`
     )
       .then((response) => {
         this.setState({'debug_dataset': response.data, 'has_ongoing_query': false});
@@ -35,19 +36,22 @@ export class AppComponent extends Component {
           {/*<!-- Controls (lat, lon, distance_km) -->*/}
           <div>
             <label>
+              Lat,Lon
               <input type="text"
-                     value={this.state.lat}
-                     onChange={(e) => {this.setState({'lat': e.target.value});}}/>
+                     value={this.state.lat_comma_lon}
+                     onChange={(e) => {this.setState({'lat_comma_lon': e.target.value});}}/>
             </label>
             <label>
-              <input type="text"
-                     value={this.state.lon}
-                     onChange={(e) => {this.setState({'lon': e.target.value});}}/>
-            </label>
-            <label>
+              Length of route
               <input type="text"
                      value={this.state.distance}
                      onChange={(e) => {this.setState({'distance': e.target.value});}}/>
+            </label>
+            <label>
+              Dispose margin
+              <input type="text"
+                     value={this.state.dispose_margin}
+                     onChange={(e) => {this.setState({'dispose_margin': e.target.value});}}/>
             </label>
           </div>
           <div>
